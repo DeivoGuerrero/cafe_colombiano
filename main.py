@@ -8,6 +8,8 @@ radio = 20
 time_step = 0.003
 interval = 20
 
+VK_SHIFT = 0x10
+KEYEVENTF_KEYUP = 0x0002
 
 class POINT(ctypes.Structure):
     _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
@@ -25,8 +27,11 @@ def move_mouse(x, y):
 
 while True:
     x0, y0 = get_mouse_position()
-
-    for angulo in range(0, 360, 5):
+    
+    user32.keybd_event(VK_SHIFT, 0, 0, 0)  # presiona Shift
+    time.sleep(0.1)
+    user32.keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0)  # suelta Shift
+    for angulo in range(0, 180, 5):
         rad = math.radians(angulo)
         x = x0 + radio * math.cos(rad)
         y = y0 + radio * math.sin(rad)
